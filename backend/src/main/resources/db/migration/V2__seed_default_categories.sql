@@ -1,0 +1,17 @@
+INSERT INTO categories (user_id, name, type) VALUES
+    (NULL, 'Food & Dining',   'EXPENSE'),
+    (NULL, 'Groceries',       'EXPENSE'),
+    (NULL, 'Transport',       'EXPENSE'),
+    (NULL, 'Rent',            'EXPENSE'),
+    (NULL, 'Utilities',       'EXPENSE'),
+    (NULL, 'Shopping',        'EXPENSE'),
+    (NULL, 'Entertainment',   'EXPENSE'),
+    (NULL, 'Health',          'EXPENSE'),
+    (NULL, 'Education',       'EXPENSE'),
+    (NULL, 'Subscriptions',   'EXPENSE'),
+    (NULL, 'Travel',          'EXPENSE'),
+    (NULL, 'Other',           'EXPENSE'),
+    (NULL, 'Salary',          'INCOME'),
+    (NULL, 'Freelance',       'INCOME'),
+    (NULL, 'Interest',        'INCOME'),
+    (NULL, 'Other Income',    'INCOME');

@@ -1,0 +1,5 @@
+finwise:
+  security:
+    issuer: https://test-issuer.invalid
+    audience: api://finwise
+    frontend-origin: http://localhost:5173

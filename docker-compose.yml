@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-finwise}
+      POSTGRES_USER: ${POSTGRES_USER:-finwise}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-finwise} -d ${POSTGRES_DB:-finwise}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-finwise}
+      DB_USER: ${POSTGRES_USER:-finwise}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      OKTA_ISSUER: ${OKTA_ISSUER}
+      OKTA_AUDIENCE: ${OKTA_AUDIENCE:-api://finwise}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:5173}
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_OKTA_ISSUER: ${OKTA_ISSUER}
+        VITE_OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
+        VITE_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  pgdata:
