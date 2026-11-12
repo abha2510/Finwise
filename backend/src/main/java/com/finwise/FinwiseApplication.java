@@ -1,6 +1,5 @@
 package com.finwise;
 
-import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,12 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FinwiseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FinwiseApplication.class, args);
-    }
-
-    /** All month boundaries are computed in IST. */
-    @PostConstruct
-    void setDefaultZone() {
+        // Must run before anything connects to the database. All month boundaries use IST.
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
+        SpringApplication.run(FinwiseApplication.class, args);
     }
 }
